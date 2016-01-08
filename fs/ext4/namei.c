@@ -3221,6 +3221,12 @@ static int ext4_link(struct dentry *old_dentry,
 	if (ext4_encrypted_inode(dir) &&
 	    !ext4_is_child_context_consistent_with_parent(dir, inode))
 		return -EPERM;
+
+	if ((ext4_test_inode_flag(dir, EXT4_INODE_PROJINHERIT)) &&
+	   (!projid_eq(EXT4_I(dir)->i_projid,
+		       EXT4_I(old_dentry->d_inode)->i_projid)))
+		return -EXDEV;
+
 	dquot_initialize(dir);
 
 retry:
@@ -3499,6 +3505,11 @@ static int ext4_rename(struct inode *old_dir, struct dentry *old_dentry,
 	struct inode *whiteout = NULL;
 	int credits;
 	u8 old_file_type;
+
+	if ((ext4_test_inode_flag(new.dir, EXT4_INODE_PROJINHERIT)) &&
+	    (!projid_eq(EXT4_I(new.dir)->i_projid,
+			EXT4_I(old.dentry->d_inode)->i_projid)))
+		return -EXDEV;
 
 	dquot_initialize(old.dir);
 	dquot_initialize(new.dir);
