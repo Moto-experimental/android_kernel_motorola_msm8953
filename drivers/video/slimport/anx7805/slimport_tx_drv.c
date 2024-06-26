@@ -3699,7 +3699,7 @@ void SP_TX_Video_Mute(BYTE enable)
 }
 
 
-void SP_TX_Config_MIPI_Video_Format()
+void SP_TX_Config_MIPI_Video_Format(void)
 {
 	unsigned long  M_vid;
 	//long float lTemp;
@@ -3734,9 +3734,9 @@ void SP_TX_Config_MIPI_Video_Format()
 	bIndex = MIPI_Format_Index_Get();
 
 		//the M_vid=Pixel clock *N_vid/(IBW*1000) = Pixel clock *32768/(lBW*1000)=  Pixel clock *4096/(lBW*125);
-	
+
 	M_vid = (unsigned long)((mipi_video_timing_table[bIndex].MIPI_pixel_frequency)*4096/(lBW*125) );
-	
+
 	c = (unsigned char)M_vid;
 	c1 = (unsigned char)(M_vid >> 8);
 	c2 = (unsigned char)(M_vid >> 16);
