@@ -21,7 +21,9 @@
 #include <openssl/bio.h>
 #include <openssl/pem.h>
 #include <openssl/err.h>
+#if !defined(OPENSSL_NO_ENGINE) || CRYPTOGRAPHY_IS_LIBRESSL
 #include <openssl/engine.h>
+#endif
 
 #define PKEY_ID_PKCS7 2
 
